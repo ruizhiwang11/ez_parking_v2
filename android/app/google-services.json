@@ -40,6 +40,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550043065107:android:542547358ba172a96898e6",
+        "android_client_info": {
+          "package_name": "com.example.ezparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550043065107-6inirj15s0ohl0thovu7pfmj1gjifkhn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8zMGLnFglbdWrs95OsTscO-JrOoqKiuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550043065107-6inirj15s0ohl0thovu7pfmj1gjifkhn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "550043065107-h1ghc58vp5plfei7avmu836d5j033k2h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ezparking"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
