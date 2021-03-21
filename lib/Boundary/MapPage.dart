@@ -2,10 +2,14 @@ import 'package:ezparking/Services/Auth.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:ezparking/Boundary/LoginPage.dart';
+
 
 class MapPage extends StatelessWidget{
   MapPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
+  static const routeName = '/MapPage';
+
   Future<void> _signOut() async {
     try {
       await auth.signOut();
@@ -44,7 +48,10 @@ class MapPage extends StatelessWidget{
                   color: Colors.white,
                 ),
               ),
-              onPressed: _signOut,
+              onPressed: () {
+                _signOut;
+                Navigator.of(context).popAndPushNamed(LoginPage.routeName);
+              },
             ),
           ],
         ),

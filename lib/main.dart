@@ -4,7 +4,9 @@ import 'package:ezparking/Services/Auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-
+import 'Boundary/LoginPage.dart';
+import 'Boundary/SignUpPage.dart';
+import 'Boundary/MapPage.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:ezparking/Entity/Carpark.dart';
@@ -62,6 +64,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home:  LandingPage(auth: Auth()),
+      routes: {
+        SignUpPage.routeName : (ctx) => SignUpPage(auth: Auth()),
+        LoginPage.routeName : (ctx) => LoginPage(auth: Auth()),
+        MapPage.routeName : (ctx) => MapPage(auth: Auth()),
+
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'Validation.dart';
 
 abstract class AuthBase {
   User get currentUser;
@@ -115,5 +116,53 @@ class Auth implements AuthBase {
     final facebookLogin = FacebookLogin();
     await facebookLogin.logOut();
     await _firebaseAuth.signOut();
+  }
+
+// wrap to authStateChanges(), to set login state for initial debuging purples
+  validateLogin(String email, String password) {
+
+    authStateChanges().listen((User user) {
+
+      try {
+        // use aaaaaa as test
+        if (user == null || (email == 'aaaa' && password =='aaaa')) {
+          print('sign In successful');
+          status= 'success';
+        }
+        else {
+          print('fail');
+          status = 'fail';
+        }
+        print ("check sign In");
+        print (status);
+
+      }catch(e) {
+        status = 'error';
+      }
+    });
+
+  }
+// same here
+  validationSignup (String email, String password) {
+    authStateChanges().listen((User user) {
+
+      try {
+        // use aaaaaa as test
+        if (user != null || (email == 'bbbb' && password =='bbbb')) {
+          print('username exist');
+          status = 'fail';
+        }
+        else {
+          print('username Available');
+          status = 'success';
+        }
+        print ("check sign up");
+        print (status);
+
+      }catch(e) {
+        status = 'error';
+      }
+    });
+
   }
 }

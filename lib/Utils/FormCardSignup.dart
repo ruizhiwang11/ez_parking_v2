@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ezparking/Services/Validation.dart';
+
+
 String username,password;
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 
-class FormCard extends StatelessWidget {
+
+class FormCardSignup extends StatefulWidget {
+
+  @override
+  _FormCardSignupState createState() => _FormCardSignupState();
+}
+
+class _FormCardSignupState extends State<FormCardSignup> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +46,7 @@ class FormCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                    'Login',
+                    'Sign Up',
                     style: TextStyle(
                       fontSize: ScreenUtil.getInstance().setSp(45),
                       fontFamily: 'Poppins-Bold',
@@ -45,59 +56,59 @@ class FormCard extends StatelessWidget {
                 new TextFormField(
                   controller: userNameController,
                   decoration: InputDecoration(labelText: 'UserName',
-                    icon: Icon(Icons.person),
-                    suffixIcon:(true) ? IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: (){userNameController.clear();},) : null ,
+                      icon: Icon(Icons.person),
+                      suffixIcon:(true) ? IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: (){userNameController.clear();},) : null ,
 
                   ),
                   keyboardType: TextInputType.text,
-                  validator: validatePassWord,
+                  validator: validateUserName,
 
-                  onSaved: (String value){
-                    username = value;
-                  },
+                    onSaved: (String value){
+                      username = value;
+                    },
                 ),
                 TextFormField(
                   controller: passwordController,
                   decoration: InputDecoration(labelText: 'PassWord',
                     icon: Icon(Icons.lock),
                     suffixIcon:(true) ? IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: (){passwordController.clear();},) : null ,),
-                  obscureText: true,
-                  validator: validatePassWord,
+                    icon: Icon(Icons.clear),
+                    onPressed: (){passwordController.clear();},) : null ,),
+                    obscureText: true,
+                    validator: validatePassWord,
                   onSaved: (String value)
                   {
                     password = value;
                   },
                 ),
 
+                TextFormField(
+                  controller: confirmpasswordController,
+                  decoration: InputDecoration(labelText: 'Confirm PassWord',
+                    icon: Icon(Icons.lock),
+                    suffixIcon:(true) ? IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: (){confirmpasswordController.clear();},) : null ,),
+                  obscureText: true,
+                  validator: validateConfirmPassWord,
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top:10),
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontFamily: 'Poppins-Medium',
-                            fontSize: ScreenUtil.getInstance().setSp(28),
-                          ),
-                        ),
-                      ),
-                      onTap: (){print("lol");},
-                    ),
-                  ],
                 ),
+
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(35),
+                ),
+
 
               ],
             ),
           ),
         )
     );
+
+
   }
+
+
 }

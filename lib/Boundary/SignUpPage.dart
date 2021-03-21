@@ -5,21 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ezparking/Utils/FormCard.dart';
 import 'package:ezparking/Utils/SocialIcon.dart';
 import 'package:ezparking/Utils/CustomIcons.dart';
-import 'SignUpPage.dart';
+import 'package:ezparking/Utils/FormCardSignup.dart';
 import 'package:ezparking/Utils/PopupWindow.dart';
+import 'package:ezparking/Boundary/LoginPage.dart';
 import 'package:ezparking/Services/Validation.dart';
 
 
-GlobalKey<FormState> formKey = GlobalKey<FormState>();
-bool loginState = false;
+bool loginState, SignUpStatus = false;
 
-
-
-
-class LoginPage extends StatelessWidget  {
-  const LoginPage({Key key, @required this.auth}) : super(key: key);
+class SignUpPage extends StatelessWidget  {
+  const SignUpPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
-  static const routeName = '/login';
+  static const routeName = '/signup';
 
 
   Future<void> _signInAnonymously() async {
@@ -43,6 +40,16 @@ class LoginPage extends StatelessWidget  {
       print(e.toString());
     }
   }
+
+  Future<void> getUserDetail() async{
+    try{
+      print ("sign up clicked");
+    }catch(e){
+      print (e.toString());
+    }
+  }
+
+
   Widget horizontalLine() => Padding(
     padding: EdgeInsets.symmetric(horizontal: 16.0),
     child: Container(
@@ -57,6 +64,7 @@ class LoginPage extends StatelessWidget  {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
 
     return new Scaffold(
+
         backgroundColor: Colors.amber.shade100,
         resizeToAvoidBottomInset: true,
         body: Stack(
@@ -65,6 +73,7 @@ class LoginPage extends StatelessWidget  {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
+
                 Padding(
                     padding: EdgeInsets.only(top: 20.0),
                     child: Image.asset('assets/image_01.png')
@@ -74,48 +83,46 @@ class LoginPage extends StatelessWidget  {
                 ),
                 Image.asset('assets/image_02.png'),
               ],
+
             ),
+
             SingleChildScrollView(
                 child: Padding(
-                    padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0),
+                    padding: EdgeInsets.only(left: 23.0, right: 28.0, top: 20.0),
                     child: Column(
                       children: <Widget>[
                         Padding(
-                            padding: const EdgeInsets.only(left: 280),
-                            child:Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: IconButton(icon: Icon(Icons.person_add,size: 40,color: Colors.brown,),
-                                      onPressed: (){
-                                        Navigator.of(context).pushNamedAndRemoveUntil(SignUpPage.routeName,(Route<dynamic> route) => false);
-                                      }),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:10),
-                                  child: Text('SignUp ',style: TextStyle(fontWeight: FontWeight.bold),),
-                                ),
-                              ],
-                            )
-
+                          padding: const EdgeInsets.only(left: 290),
+                          child: Column(
+                            children: [
+                              IconButton(icon: Icon(Icons.person,size: 40,color: Colors.brown,),
+                                  onPressed: (){
+                                    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => false);
+                                  }),
+                              Text('to Login',style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          )
                         ),
+
                         Row(
                           children: <Widget>[
                             Text(
-                                'EzParking',
+                                'EzParking ',
                                 style: TextStyle(
                                   fontFamily: 'Poppins-Bold',
-                                  fontSize: ScreenUtil.getInstance().setSp(46),
-                                  letterSpacing: .6,
+                                  fontSize: ScreenUtil.getInstance().setSp(52),
+                                  letterSpacing: 1.7,
                                   fontWeight: FontWeight.bold,
                                 )
-                            )
+                            ),
+
+
                           ],
                         ),
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(130),
                         ),
-                        FormCard(),
+                        FormCardSignup(),
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(35),
                         ),
@@ -143,16 +150,16 @@ class LoginPage extends StatelessWidget  {
                                       color: Colors.transparent,
                                       child: InkWell(
                                           onTap: () {
-                                            Signin();
+                                            //Signup();
+                                            //print("$username + $password");
                                             showDialog(
                                               context: context,
-                                              builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Login',"success"),
-
+                                              builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Sign Up', status),
                                             );
                                           },
                                           child: Center(
                                               child: Text(
-                                                  'SIGNIN',
+                                                  'SIGN UP',
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontFamily: 'Poppins-Bold',
@@ -212,36 +219,11 @@ class LoginPage extends StatelessWidget  {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(30),
                         ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              'New User? ',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-Medium'
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: Text(
-                                  'SignUp',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins-Bold',
-                                    color: Color(0xFF5d74e3),
-                                  )
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Or? ',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-Medium'
-                              ),
-                            ),
+
                             InkWell(
                               onTap: _signInAnonymously,
                               child: Text(
@@ -263,3 +245,4 @@ class LoginPage extends StatelessWidget  {
     );
   }
 }
+
