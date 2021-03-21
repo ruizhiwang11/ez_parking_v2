@@ -1,4 +1,5 @@
 import 'package:ezparking/Services/Auth.dart';
+import 'package:ezparking/Utils/NavDrawer.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,7 @@ import 'package:flutter/material.dart';
 class MapPage extends StatelessWidget{
   MapPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
-  Future<void> _signOut() async {
-    try {
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+
   GoogleMapController mapController;
   LatLng _initialcameraposition = LatLng(1.282302, 103.858528);
   GoogleMapController _controller;
@@ -32,20 +27,11 @@ class MapPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        drawer: NavDrawer(auth: auth),
         appBar: AppBar(
           title: Text('Car parks'),
           backgroundColor: Colors.amber.shade300,
           actions: <Widget>[
-            FlatButton(
-              child: Text(
-                'Logout',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: _signOut,
-            ),
           ],
         ),
         body: GoogleMap(
