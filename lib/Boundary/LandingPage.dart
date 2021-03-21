@@ -1,8 +1,11 @@
+import 'package:ezparking/Boundary/CarparkInfoPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../Entity/Carpark.dart';
+import '../Entity/Review.dart';
 import 'MapPage.dart';
 import 'LoginPage.dart';
-import '../Services/Auth.dart';
+import 'package:ezparking/Services/Auth.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key key, @required this.auth}) : super(key: key);
@@ -20,8 +23,11 @@ class LandingPage extends StatelessWidget {
               auth: auth,
             );
           }
-          return MapPage(
+          return CarparkInfoPage(
             auth: auth,
+            carpark: Carpark.simple(13, "asc"),
+            review: Review(13,"asc",0,0,0,0),
+
           );
         }
         return Scaffold(
