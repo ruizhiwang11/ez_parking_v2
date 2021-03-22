@@ -5,8 +5,6 @@ import '../Boundary/LoginPage.dart';
 import 'package:ezparking/Services/Validation.dart';
 import 'package:ezparking/Boundary/MapPage.dart';
 
-bool loginState = false;
-bool SignUpStatus = false;
 
 class Popupwindow extends StatelessWidget {
   @override
@@ -14,10 +12,11 @@ class Popupwindow extends StatelessWidget {
 
     return Container();
   }
-  Widget PopupDialog(BuildContext context, String mode, String status) {
+  Widget PopupDialog(BuildContext context, String mode, bool status) {
 
-    var list = GetStatus(mode, status);
+    var list = Validation().GetStatus(mode, status);
 
+    print (list);
     return new AlertDialog(
       title:  Text( list['title']),
       content: new Column(
@@ -32,10 +31,10 @@ class Popupwindow extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             print (status);
-            (status == 'success')? Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => false):null ;
+            (status == true)? Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => false):null ;
             },
           textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
+          child: const Text('Okay'),
         ),
       ],
     );

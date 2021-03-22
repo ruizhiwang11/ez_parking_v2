@@ -3,6 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ezparking/Services/Validation.dart';
 String username,password;
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+TextEditingController userNameController = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+TextEditingController confirmpasswordController = new TextEditingController();
+
 
 
 class FormCard extends StatelessWidget {
@@ -52,7 +56,7 @@ class FormCard extends StatelessWidget {
 
                   ),
                   keyboardType: TextInputType.text,
-                  validator: validatePassWord,
+                  validator: Validation().validatePassWord,
 
                   onSaved: (String value){
                     username = value;
@@ -66,7 +70,7 @@ class FormCard extends StatelessWidget {
                       icon: Icon(Icons.clear),
                       onPressed: (){passwordController.clear();},) : null ,),
                   obscureText: true,
-                  validator: validatePassWord,
+                  validator: Validation().validatePassWord,
                   onSaved: (String value)
                   {
                     password = value;

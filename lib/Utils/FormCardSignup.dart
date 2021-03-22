@@ -5,6 +5,10 @@ import 'package:ezparking/Services/Validation.dart';
 
 String username,password;
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+TextEditingController userNameController = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+TextEditingController confirmpasswordController = new TextEditingController();
+
 
 
 
@@ -63,7 +67,7 @@ class _FormCardSignupState extends State<FormCardSignup> {
 
                   ),
                   keyboardType: TextInputType.text,
-                  validator: validateUserName,
+                  validator: Validation().validateUserName,
 
                     onSaved: (String value){
                       username = value;
@@ -77,7 +81,7 @@ class _FormCardSignupState extends State<FormCardSignup> {
                     icon: Icon(Icons.clear),
                     onPressed: (){passwordController.clear();},) : null ,),
                     obscureText: true,
-                    validator: validatePassWord,
+                    validator: Validation().validatePassWord,
                   onSaved: (String value)
                   {
                     password = value;
@@ -92,7 +96,7 @@ class _FormCardSignupState extends State<FormCardSignup> {
                     icon: Icon(Icons.clear),
                     onPressed: (){confirmpasswordController.clear();},) : null ,),
                   obscureText: true,
-                  validator: validateConfirmPassWord,
+                  validator: Validation().validateConfirmPassWord,
 
                 ),
 

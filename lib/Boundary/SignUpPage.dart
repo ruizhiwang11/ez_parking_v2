@@ -1,16 +1,21 @@
+import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ezparking/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ezparking/Utils/FormCard.dart';
+// import 'package:ezparking/Utils/FormCard.dart';
+import 'package:ezparking/Utils/FormCard_RU.dart';
 import 'package:ezparking/Utils/SocialIcon.dart';
 import 'package:ezparking/Utils/CustomIcons.dart';
-import 'package:ezparking/Utils/FormCardSignup.dart';
+// import 'package:ezparking/Utils/FormCardSignup.dart';
 import 'package:ezparking/Utils/PopupWindow.dart';
 import 'package:ezparking/Boundary/LoginPage.dart';
 import 'package:ezparking/Services/Validation.dart';
 
 
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+User user;
 bool loginState, SignUpStatus = false;
 
 class SignUpPage extends StatelessWidget  {
@@ -64,6 +69,7 @@ class SignUpPage extends StatelessWidget  {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
 
     return new Scaffold(
+      key: _scaffoldKey,
 
         backgroundColor: Colors.amber.shade100,
         resizeToAvoidBottomInset: true,
@@ -97,7 +103,10 @@ class SignUpPage extends StatelessWidget  {
                             children: [
                               IconButton(icon: Icon(Icons.person,size: 40,color: Colors.brown,),
                                   onPressed: (){
-                                    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => false);
+                                    // Navigator.pushReplacementNamed(context, LoginPage.routeName);
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+
+                                    // Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => true);
                                   }),
                               Text('to Login',style: TextStyle(fontWeight: FontWeight.bold),),
                             ],
@@ -122,7 +131,7 @@ class SignUpPage extends StatelessWidget  {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(130),
                         ),
-                        FormCardSignup(),
+                        FormCard('signup'),
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(35),
                         ),
@@ -150,12 +159,27 @@ class SignUpPage extends StatelessWidget  {
                                       color: Colors.transparent,
                                       child: InkWell(
                                           onTap: () {
-                                            //Signup();
+                                            _scaffoldKey.currentState.showSnackBar(
+                                                new SnackBar(duration: new Duration(seconds: 1), content:
+                                                new Row(
+                                                  children: <Widget>[
+                                                    new CircularProgressIndicator(),
+                                                    new Text("  Signing-In...")
+                                                  ],
+                                                ),
+                                                ));
+
+                                            Validation().Signup();
+                                            print ('HAHAHA current user is : ');
+                                            print (Auth().currentUser.email);
                                             //print("$username + $password");
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Sign Up', status),
-                                            );
+                                            Timer(Duration(seconds: 1), () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Sign Up', Validation().validateSignin()),
+                                              );
+                                            } );
+
                                           },
                                           child: Center(
                                               child: Text(
@@ -177,65 +201,7 @@ class SignUpPage extends StatelessWidget  {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(40),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            horizontalLine(),
-                            Text(
-                                'Social Login',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Poppins-Medium',
-                                )
-                            ),
-                            horizontalLine(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(40),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            SocialIcon(
-                              colors: [
-                                Color(0xFF102397),
-                                Color(0xFF187adf),
-                                Color(0xFF00eaf8),
-                              ],
-                              icondata: CustomIcons.facebook,
-                              onPressed: _signInWithFacebook,
-                            ),
-                            SocialIcon(
-                              colors: [
-                                Color(0xFFff4f38),
-                                Color(0xFFff355d),
-                              ],
-                              icondata: CustomIcons.googlePlus,
-                              onPressed: _signInWithGoogle,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(30),
-                        ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-
-                            InkWell(
-                              onTap: _signInAnonymously,
-                              child: Text(
-                                  'Sign in Anonymously',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins-Bold',
-                                    color: Color(0xFF5d74e3),
-                                  )
-                              ),
-                            )
-                          ],
-                        )
                       ],
                     )
                 )

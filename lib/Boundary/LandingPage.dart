@@ -20,7 +20,7 @@ class LandingPage extends StatelessWidget {
               auth: auth,
             );
           }
-          return MapPage(
+          return LoginPage(
             auth: auth,
           );
         }

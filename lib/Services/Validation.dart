@@ -1,103 +1,151 @@
+
 import 'package:flutter/material.dart';
-import 'package:ezparking/Utils/FormCard.dart';
-import 'package:ezparking/Utils/FormCardSignup.dart' as su;
+import 'package:ezparking/Utils/FormCard_RU.dart';
+// import 'package:ezparking/Utils/FormCardSignup.dart' as su;
 import 'package:ezparking/Services/Auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ezparking/Boundary/SignUpPage.dart';
+import 'package:ezparking/Boundary/LoginPage.dart';
 
 
 
-TextEditingController userNameController = new TextEditingController();
-TextEditingController passwordController = new TextEditingController();
-TextEditingController confirmpasswordController = new TextEditingController();
 
 
-bool loginState = false;
-bool SignUpStatus = false;
-String status;
-
-
-
-Future<String> Signin()  async {
-  if (formKey.currentState.validate()){
-    formKey.currentState.save();
-  }
-
-
-  print ("login details: ");
-  print("$username + $password");
-  Auth().signInWithEmailAndPassword( username, password);
-  //await Auth().checklogin(username, password);
-
-}
-
-Future<String> Signup() async {
-
-  su.formKey.currentState.save();
-  print ("sign up details: ");
-  print(su.username + su.password);
-  //await Auth().preCheckExist(su.username, su.password);
-  //(status == 'success')? Auth().register( su.username, su.password): SignUpStatus=false;
-
-
-}
-
-
-Map<String,String> GetStatus (String mode, String status){
-  Map <String,String> _StatusList = {'title':'','body':''};
-  print ("status is : " );
-  print (status);
-  if (status == 'success' ){
-    _StatusList['title'] = mode + ' to EzParking!';
-    _StatusList['body']='You have successfully '+ mode + ' , Enjoy!';
-    loginState = true;
-    SignUpStatus = true;
-
-  } else if (status == 'fail' ){
-    _StatusList['title'] = 'Sorry';
-    _StatusList['body']= mode + ' unsuccessful, Try again !';
-    loginState = false;
-    SignUpStatus = false;
-  }
-  else if (status == 'error' ){
-    _StatusList['title'] =  mode + ' Error';
-    _StatusList['body']='Could not '+ mode + ' at the moment';
-    SignUpStatus = false;
-    loginState = false;
-
-  }else{
-    _StatusList['title'] =  mode + ' GG';
-    _StatusList['body']='Could not '+ mode + ' at the moment';
-    loginState = false;
-    SignUpStatus = false;
-
-  }
-  return _StatusList;
+abstract class validBase{
+  Future<bool> Signin();
+  Future<bool> Signup();
+  bool validateSignin();
+  bool validateUser(String email, String password);
+  Map<String, String> GetStatus(String mode, bool status);
+  String validateUserName(String value);
+  String validatePassWord(String value);
+  String validateConfirmPassWord(String value);
 }
 
 
 
-String validateUserName( String value){
-  if (value.isEmpty) {
-    return 'username can not be empty';
-  }else if (value.length <4) {
-    return 'username < 4 digits';
-  }
-  return null;
-}
-String validatePassWord(String value){
-  if (value.isEmpty) {
-    return 'password can not be none';
-  }else if(value.trim().length<4 || value.trim().length>18){
-    return 'password < 4 digits';
-  }
-  return null;
-}
+class Validation {
 
-String validateConfirmPassWord(String value){
-  if (value.isEmpty) {
-    return 'password can not be none';
-  }else if(value.trim().length<4 || value.trim().length>18){
-    return 'password < 4 digits';
-  }
-  return null;
-}
+  bool _validationstate = false;
+  String status;
+  User user;
 
+  Future<bool> Signin() async {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      await Auth().signInWithEmailAndPassword(username, password);
+      return validateUser(username, password);
+    } else {
+      print('Sign in validation fail');
+    }
+
+    print("login details: ");
+    print("$username + $password");
+
+    //await Auth().checklogin(username, password);
+
+  }
+
+  Future<bool> Signup() async {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      print("sign up details: ");
+      print(username + "    " + password + "    " + confpassword);
+      await Auth().createUserWithEmailAndPassword(username, password);
+      return validateUser(username, password);
+    } else {
+      print('Sign up validation fail');
+    }
+  }
+
+  bool validateSignin() {
+    return Auth().currentUser.email == username;
+  }
+
+
+  // wrap to authStateChanges(), to set login state for initial debuging purples
+  bool validateUser(String email, String password) {
+    Auth().authStateChanges().listen((User user) {
+      try {
+        // use aaaaaa as test
+        if (user != null || (email == 'aaaa' && password == 'aaaa')) {
+          print('sign In successful');
+          print(user.toString());
+          return 1;
+        }
+        else {
+          print('fail');
+          return 0;
+        }
+        print("check sign In");
+        print(status);
+      } catch (e) {
+        status = 'error';
+        print("Opz, error !!");
+        return 0;
+      }
+    });
+  }
+
+
+  Map<String, String> GetStatus(String mode, bool status) {
+    Map <String, String> _StatusList = {'title': '', 'body': ''};
+    print("GetStatus status is : ");
+    print(status);
+
+    if (status == true) {
+      _StatusList['title'] = mode + ' to EzParking!';
+      _StatusList['body'] = 'You have successfully ' + mode + ' , \n Enjoy!';
+    } else {
+      _StatusList['title'] = 'Sorry';
+      _StatusList['body'] = mode + ' unsuccessful, Try again !';
+    }
+    return _StatusList;
+  }
+
+
+  String validateUserName(String value) {
+    if (value.isEmpty) {
+      _validationstate = false;
+      return 'username can not be empty';
+    } else if (value.length < 4) {
+      _validationstate = false;
+      return 'username < 4 digits';
+    }
+    _validationstate = true;
+    return null;
+  }
+
+  String validatePassWord(String value) {
+    if (value.isEmpty) {
+      _validationstate = false;
+      return 'password can not be none';
+    } else if (value
+        .trim()
+        .length < 4) {
+      _validationstate = false;
+      return 'password < 4 digits';
+    }
+    _validationstate = true;
+    return null;
+  }
+
+  String validateConfirmPassWord(String value) {
+    if (value.isEmpty) {
+      _validationstate = false;
+      return 'password can not be none';
+    } else if (value
+        .trim()
+        .length < 4) {
+      _validationstate = false;
+      return 'password < 4 digits';
+    }
+    else if (value != passwordController.text) {
+      _validationstate = false;
+      return 'password not the same';
+    }
+    _validationstate = true;
+    return null;
+  }
+
+}

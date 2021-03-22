@@ -44,8 +44,8 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<User> createUserWithEmailAndPassword(String email,
+      String password) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -116,53 +116,5 @@ class Auth implements AuthBase {
     final facebookLogin = FacebookLogin();
     await facebookLogin.logOut();
     await _firebaseAuth.signOut();
-  }
-
-// wrap to authStateChanges(), to set login state for initial debuging purples
-  validateLogin(String email, String password) {
-
-    authStateChanges().listen((User user) {
-
-      try {
-        // use aaaaaa as test
-        if (user == null || (email == 'aaaa' && password =='aaaa')) {
-          print('sign In successful');
-          status= 'success';
-        }
-        else {
-          print('fail');
-          status = 'fail';
-        }
-        print ("check sign In");
-        print (status);
-
-      }catch(e) {
-        status = 'error';
-      }
-    });
-
-  }
-// same here
-  validationSignup (String email, String password) {
-    authStateChanges().listen((User user) {
-
-      try {
-        // use aaaaaa as test
-        if (user != null || (email == 'bbbb' && password =='bbbb')) {
-          print('username exist');
-          status = 'fail';
-        }
-        else {
-          print('username Available');
-          status = 'success';
-        }
-        print ("check sign up");
-        print (status);
-
-      }catch(e) {
-        status = 'error';
-      }
-    });
-
   }
 }
