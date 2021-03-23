@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ezparking/Entity/Review.dart';
 
+import '../Entity/Review.dart';
+
 class ReviewDataBase {
   static Database _db;
   static const String id = 'id';
@@ -72,6 +74,19 @@ class ReviewDataBase {
     var dbClient = await db;
     return await dbClient.update(TABLE, review.toMap(),
         where: '$id = ?', whereArgs: [review.id]);
+  }
+
+  Future<Review> getReviewByCarparkNumber(String carparkNumber) async{
+    var dbClient = await db;
+    List<Map> maps = await dbClient.query(TABLE, where: '$carParkNo = ?', whereArgs: [carparkNumber]);
+    if(maps == null){
+      throw("No carparkNo found");
+    }
+    Review review;
+    if(maps.length > 0){
+      review = Review.fromMap(maps[0]);
+    }
+    return review;
   }
 
   Future close() async {

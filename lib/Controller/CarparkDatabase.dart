@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -97,4 +98,19 @@ class CarparkDataBase {
     var dbClient = await db;
     dbClient.close();
   }
+
+
+  Future<Carpark> getCarparkByCarparkNumber(String carparkNumber) async{
+    var dbClient = await db;
+    List<Map> maps = await dbClient.query(TABLE, where: '$carParkNo = ?', whereArgs: [carparkNumber]);
+    if(maps == null){
+      throw("No carparkNo found");
+    }
+    Carpark carpark;
+    if(maps.length > 0){
+      carpark = Carpark.fromMap(maps[0]);
+    }
+    return carpark;
+  }
+
 }
