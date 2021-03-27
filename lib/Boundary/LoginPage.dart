@@ -1,14 +1,25 @@
 
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ezparking/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ezparking/Utils/FormCard.dart';
 import 'package:ezparking/Utils/SocialIcon.dart';
 import 'package:ezparking/Utils/CustomIcons.dart';
+import 'package:ezparking/Utils/PopupWindow.dart';
+import 'package:ezparking/Services/Validation.dart';
+import 'package:ezparking/Boundary/SignUpPage.dart';
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+bool loginState = false;
+User user;
+
 
 class LoginPage extends StatelessWidget  {
   const LoginPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
+  static const routeName = '/login';
+
   Future<void> _signInAnonymously() async {
     try {
       await auth.signInAnonymously();
@@ -44,6 +55,7 @@ class LoginPage extends StatelessWidget  {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
 
     return new Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.amber.shade100,
         resizeToAvoidBottomInset: true,
         body: Stack(
@@ -70,7 +82,7 @@ class LoginPage extends StatelessWidget  {
                         Row(
                           children: <Widget>[
                             Text(
-                                'EzParking',
+                                'EzParking 1',
                                 style: TextStyle(
                                   fontFamily: 'Poppins-Bold',
                                   fontSize: ScreenUtil.getInstance().setSp(46),
@@ -83,7 +95,7 @@ class LoginPage extends StatelessWidget  {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(180),
                         ),
-                        FormCard(),
+                        new FormCard('login'),
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(35),
                         ),
@@ -110,7 +122,27 @@ class LoginPage extends StatelessWidget  {
                                   child: Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                          onTap: () {},
+                                          onTap: () {
+
+
+                                            _scaffoldKey.currentState.showSnackBar(
+                                                new SnackBar(duration: new Duration(seconds: 1), content:
+                                                new Row(
+                                                  children: <Widget>[
+                                                    new CircularProgressIndicator(),
+                                                    new Text("  Signing-In...")
+                                                  ],
+                                                ),
+                                                ));
+                                            Validation().Signin();
+                                            Timer(Duration(seconds: 1), () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) => Popwindow().Popupwindow(context,'login',false),
+                                              );
+                                            } );
+
+                                                },
                                           child: Center(
                                               child: Text(
                                                   'SIGNIN',
@@ -183,7 +215,11 @@ class LoginPage extends StatelessWidget  {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                // Navigator.of(context).pushNamedAndRemoveUntil(SignUpPage.routeName,(Route<dynamic> route) => true);
+                                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                              },
                               child: Text(
                                   'SignUp',
                                   style: TextStyle(
@@ -221,6 +257,28 @@ class LoginPage extends StatelessWidget  {
             ),
           ],
         )
+    );
+  }
+  Widget Popupwindow(BuildContext context) {
+
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 }

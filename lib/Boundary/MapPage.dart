@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class MapPage extends StatelessWidget{
   MapPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
+  static const routeName = '/MapPage';
+
   Future<void> _signOut() async {
     try {
       await auth.signOut();
