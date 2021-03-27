@@ -59,10 +59,17 @@ class Validation {
   }
 
   bool validateSignin() {
-    print ('Validationstate is '+ validationstate.toString() );
-    print ('Auth().currentUser.email == username is '+ (Auth().currentUser.email == username).toString() );
+    if ( user != null) {
+      print('Validationstate is ' + validationstate.toString());
+      print('Auth().currentUser.email == username is ' +
+          (Auth().currentUser.email == username).toString());
 
-    return (validationstate ?  (Auth().currentUser.email == username) : false );
+      return (validationstate ? (Auth().currentUser.email == username) : false);
+    }
+    else {
+      print ( " user is not null");
+      return false;
+    }
   }
 
 
