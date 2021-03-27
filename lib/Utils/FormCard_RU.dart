@@ -95,25 +95,23 @@ class FormCard extends StatelessWidget {
                 ),
                 (this.PageName == "Login") ?
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top:10),
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontFamily: 'Poppins-Medium',
-                            fontSize: ScreenUtil.getInstance().setSp(28),
-                          ),
-                        ),
-                      ),
-                      onTap: (){print("lol");},
-                    ),
-                  ],
+
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(10),
+
                 )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: <Widget>[
+                //     GestureDetector(
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(top:10),
+                //
+                //       ),
+                //       onTap: (){print("lol");},
+                //     ),
+                //   ],
+                // )
                     :
                 TextFormField(
                   controller: confirmpasswordController,

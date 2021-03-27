@@ -26,11 +26,11 @@ abstract class validBase{
 
 class Validation {
 
-  bool _validationstate = false;
+  bool validationstate = false;
   String status;
   User user;
 
-  Future<bool> Signin() async {
+  Future<void> Signin() async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       await Auth().signInWithEmailAndPassword(username, password);
@@ -46,7 +46,7 @@ class Validation {
 
   }
 
-  Future<bool> Signup() async {
+  Future<void> Signup() async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       print("sign up details: ");
@@ -59,7 +59,7 @@ class Validation {
   }
 
   bool validateSignin() {
-    return Auth().currentUser.email == username;
+    validationstate ?  Auth().currentUser.email == username : false ;
   }
 
 
@@ -89,10 +89,10 @@ class Validation {
 
 
   Map<String, String> GetStatus(String mode, bool status) {
-    Map <String, String> _StatusList = {'title': '', 'body': ''};
+    Map <String, String> _StatusList = {'mode':'', 'title': '', 'body': ''};
     print("GetStatus status is : ");
     print(status);
-
+    _StatusList['mode'] = mode;
     if (status == true) {
       _StatusList['title'] = mode + ' to EzParking!';
       _StatusList['body'] = 'You have successfully ' + mode + ' , \n Enjoy!';
@@ -106,45 +106,45 @@ class Validation {
 
   String validateUserName(String value) {
     if (value.isEmpty) {
-      _validationstate = false;
+      validationstate = false;
       return 'username can not be empty';
     } else if (value.length < 4) {
-      _validationstate = false;
+      validationstate = false;
       return 'username < 4 digits';
     }
-    _validationstate = true;
+    validationstate = true;
     return null;
   }
 
   String validatePassWord(String value) {
     if (value.isEmpty) {
-      _validationstate = false;
+      validationstate = false;
       return 'password can not be none';
     } else if (value
         .trim()
         .length < 4) {
-      _validationstate = false;
+      validationstate = false;
       return 'password < 4 digits';
     }
-    _validationstate = true;
+    validationstate = true;
     return null;
   }
 
   String validateConfirmPassWord(String value) {
     if (value.isEmpty) {
-      _validationstate = false;
+      validationstate = false;
       return 'password can not be none';
     } else if (value
         .trim()
         .length < 4) {
-      _validationstate = false;
+      validationstate = false;
       return 'password < 4 digits';
     }
     else if (value != passwordController.text) {
-      _validationstate = false;
+      validationstate = false;
       return 'password not the same';
     }
-    _validationstate = true;
+    validationstate = true;
     return null;
   }
 

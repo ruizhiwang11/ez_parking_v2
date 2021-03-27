@@ -31,8 +31,12 @@ class Popupwindow extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             print (status);
-            (status == true)? Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => false):null ;
-            },
+            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+            print ("list['mode'] is :");
+            print (list['mode']);
+            // (status == true && list['mode']== 'Login' )?  Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => true) : Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => true)  ;
+            (status == true )? print ("TRUE"):print ("FALSE");
+          },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Okay'),
         ),

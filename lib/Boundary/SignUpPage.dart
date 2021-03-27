@@ -4,11 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ezparking/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:ezparking/Utils/FormCard.dart';
 import 'package:ezparking/Utils/FormCard_RU.dart';
-import 'package:ezparking/Utils/SocialIcon.dart';
-import 'package:ezparking/Utils/CustomIcons.dart';
-// import 'package:ezparking/Utils/FormCardSignup.dart';
+
 import 'package:ezparking/Utils/PopupWindow.dart';
 import 'package:ezparking/Boundary/LoginPage.dart';
 import 'package:ezparking/Services/Validation.dart';
@@ -21,30 +18,6 @@ bool loginState, SignUpStatus = false;
 class SignUpPage extends StatelessWidget  {
   const SignUpPage({Key key, @required this.auth}) : super(key: key);
   final AuthBase auth;
-  static const routeName = '/signup';
-
-
-  Future<void> _signInAnonymously() async {
-    try {
-      await auth.signInAnonymously();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-  Future<void> _signInWithGoogle() async {
-    try {
-      await auth.signInWithGoogle();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-  Future<void> _signInWithFacebook() async {
-    try {
-      await auth.signInWithFacebook();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 
   Future<void> getUserDetail() async{
     try{
@@ -94,19 +67,19 @@ class SignUpPage extends StatelessWidget  {
 
             SingleChildScrollView(
                 child: Padding(
-                    padding: EdgeInsets.only(left: 23.0, right: 28.0, top: 20.0),
+                    padding: EdgeInsets.only(left: 23.0, right: 28.0, top: 25.0),
                     child: Column(
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(left: 290),
                           child: Column(
+                            // button for goes back to loginPage
                             children: [
-                              IconButton(icon: Icon(Icons.person,size: 40,color: Colors.brown,),
+                              IconButton(icon: Icon(Icons.login_rounded,size: 38,color: Colors.brown,),
                                   onPressed: (){
-                                    // Navigator.pushReplacementNamed(context, LoginPage.routeName);
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
 
-                                    // Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => true);
+                                    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => true);
                                   }),
                               Text('to Login',style: TextStyle(fontWeight: FontWeight.bold),),
                             ],
@@ -176,6 +149,7 @@ class SignUpPage extends StatelessWidget  {
                                             Timer(Duration(seconds: 1), () {
                                               showDialog(
                                                 context: context,
+
                                                 builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Sign Up', Validation().validateSignin()),
                                               );
                                             } );

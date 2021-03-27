@@ -50,7 +50,9 @@ class MapPage extends StatelessWidget{
               ),
               onPressed: () {
                 _signOut;
-                Navigator.of(context).popAndPushNamed(LoginPage.routeName);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+
+                // Navigator.of(context).popAndPushNamed(LoginPage.routeName);
               },
             ),
           ],

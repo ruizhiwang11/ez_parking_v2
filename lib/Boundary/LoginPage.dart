@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ezparking/Services/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:ezparking/Utils/FormCard.dart';
 import 'package:ezparking/Utils/FormCard_RU.dart';
 
 import 'package:ezparking/Utils/SocialIcon.dart';
@@ -48,14 +46,7 @@ class LoginPage extends StatelessWidget  {
     }
   }
 
-  // Future<void> _signInWithEmailPassword() async {
-  //   try {
-  //     _formKey.currentState.save();
-  //     await auth.signInWithEmailAndPassword(username, password);
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+
   Widget horizontalLine() => Padding(
     padding: EdgeInsets.symmetric(horizontal: 16.0),
     child: Container(
@@ -91,30 +82,30 @@ class LoginPage extends StatelessWidget  {
             ),
             SingleChildScrollView(
                 child: Padding(
-                    padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0),
+                    padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.only(left: 280),
-                            child:Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: IconButton(icon: Icon(Icons.person_add,size: 40,color: Colors.brown,),
-                                      onPressed: (){
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
-
-                                        // Navigator.of(context).pushNamedAndRemoveUntil(SignUpPage.routeName,(Route<dynamic> route) => true);
-                                      }),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:10),
-                                  child: Text('SignUp ',style: TextStyle(fontWeight: FontWeight.bold),),
-                                ),
-                              ],
-                            )
-
-                        ),
+                        // Padding(
+                        //     padding: const EdgeInsets.only(left: 280),
+                        //     child:Column(
+                        //       children: <Widget>[
+                        //         // Padding(
+                        //         //   padding: const EdgeInsets.only(left: 5),
+                        //         //   child: IconButton(icon: Icon(Icons.person_add,size: 40,color: Colors.brown,),
+                        //         //       onPressed: (){
+                        //         //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                        //         //
+                        //         //         // Navigator.of(context).pushNamedAndRemoveUntil(SignUpPage.routeName,(Route<dynamic> route) => true);
+                        //         //       }),
+                        //         // ),
+                        //         // Padding(
+                        //         //   padding: const EdgeInsets.only(left:10),
+                        //         //   child: Text('SignUp ',style: TextStyle(fontWeight: FontWeight.bold),),
+                        //         // ),
+                        //       ],
+                        //     )
+                        //
+                        // ),
                         Row(
                           children: <Widget>[
                             Text(
@@ -155,7 +146,9 @@ class LoginPage extends StatelessWidget  {
                                       )
                                     ],
                                   ),
-                                  child: Material(
+                                  child:
+                                  Material(
+
                                       color: Colors.transparent,
                                       child: InkWell(
                                           onTap: () {
@@ -168,13 +161,12 @@ class LoginPage extends StatelessWidget  {
                                                   ],
                                                 ),
                                                 ));
-
-
                                             Validation().Signin();
                                             Timer(Duration(seconds: 1), () {
                                               showDialog(
                                                 context: context,
                                                 builder: (BuildContext context) => Popupwindow().PopupDialog(context,'Login',Validation().validateSignin() ),
+                                                // builder: ((Validation().validationstate == true )? (BuildContext context) => Popupwindow().PopupDialog(context,'Login',Validation().validateSignin() ) : null),
                                               );
                                             } );
 
@@ -251,7 +243,9 @@ class LoginPage extends StatelessWidget  {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                              },
                               child: Text(
                                   'SignUp',
                                   style: TextStyle(
