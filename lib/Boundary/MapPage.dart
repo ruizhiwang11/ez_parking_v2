@@ -11,17 +11,18 @@ const kGoogleApiKey = "AIzaSyAzedSahYVFaCTK3_YP19NYYd9_mW3EI5A";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class MapPage extends StatefulWidget {
+  MapPage({Key key, @required this.auth}) : super(key: key);
+
   @override
   _MapPageState createState() => _MapPageState();
+  final AuthBase auth;
 }
 
 class _MapPageState extends State<MapPage> {
   // _MapPageState({Key key, @required this.auth}) : super(key: key);
-  // final AuthBase auth;
   GoogleMapController mapController;
   LatLng _initialcameraposition = LatLng(1.282302, 103.858528);
   final _location = LocationManager.Location();
-
   Set<Marker> _markers = {};
   BitmapDescriptor mapMarker;
 
@@ -30,6 +31,7 @@ class _MapPageState extends State<MapPage> {
     // TODO: implement initState
     super.initState();
     setCustomMarker();
+
   }
 
   void setCustomMarker() async {
@@ -46,28 +48,16 @@ class _MapPageState extends State<MapPage> {
         ),
       );
     });
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId('id-1'),
-          position: LatLng(1.348310, 103.683136),
-          icon: mapMarker,
-          infoWindow: InfoWindow(
-            title: 'NTU',
-            snippet: 'School',
-          ),
-        ),
-      );
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        // drawer: NavDrawer(auth: auth),
+        drawer: NavDrawer(auth: widget.auth),
         appBar: AppBar(
           title: Text('Car parks'),
+
           backgroundColor: Colors.amber.shade300,
           actions: <Widget>[
             IconButton(
@@ -85,6 +75,7 @@ class _MapPageState extends State<MapPage> {
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
           myLocationEnabled: true,
+          markers: _markers,
 
         ),
         floatingActionButton: FloatingActionButton(
