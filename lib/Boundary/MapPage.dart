@@ -1,62 +1,112 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ezparking">
-   <application
-        android:label="ezparking"
-        android:icon="@mipmap/ic_launcher">
-       <meta-data
-           android:name="com.facebook.sdk.ApplicationId"
-           android:value="@string/facebook_app_id" />
-       <activity
-           android:name="com.facebook.FacebookActivity"
-           android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-           android:label="@string/app_name" />
-       <activity
-           android:name="com.facebook.CustomTabActivity"
-           android:exported="true">
-           <intent-filter>
-               <action android:name="android.intent.action.VIEW" />
+import 'package:ezparking/Services/Auth.dart';
+import 'package:location/location.dart' as LocationManager;
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:ezparking/Boundary/SearchPage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:ezparking/Utils/NavDrawer.dart';
 
-               <category android:name="android.intent.category.DEFAULT" />
-               <category android:name="android.intent.category.BROWSABLE" />
+const kGoogleApiKey = "AIzaSyAzedSahYVFaCTK3_YP19NYYd9_mW3EI5A";
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
-               <data android:scheme="@string/fb_login_protocol_scheme" />
-           </intent-filter>
-       </activity>
-        <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
-                 to determine the Window background behind the Flutter UI. -->
-            <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
-            <!-- Displays an Android View that continues showing the launch screen
-                 Drawable until Flutter paints its first frame, then this splash
-                 screen fades out. A splash screen is useful to avoid any visual
-                 gap between the end of Android's launch screen and the painting of
-                 Flutter's first frame. -->
-            <meta-data
-              android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/launch_background"
-              />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyAzedSahYVFaCTK3_YP19NYYd9_mW3EI5A"/>
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
-    </application>
-</manifest>
+class MapPage extends StatefulWidget {
+  @override
+  _MapPageState createState() => _MapPageState();
+}
+
+class _MapPageState extends State<MapPage> {
+  // _MapPageState({Key key, @required this.auth}) : super(key: key);
+  // final AuthBase auth;
+  GoogleMapController mapController;
+  LatLng _initialcameraposition = LatLng(1.282302, 103.858528);
+  final _location = LocationManager.Location();
+
+  Set<Marker> _markers = {};
+  BitmapDescriptor mapMarker;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setCustomMarker();
+  }
+
+  void setCustomMarker() async {
+    // mapMarker = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)), 'assets/pin2.png');
+  }
+
+  void _onMapCreated(GoogleMapController _cntlr) {
+    mapController = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          // CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
+          CameraPosition(target: LatLng(1.348310, 103.683136), zoom: 15),
+        ),
+      );
+    });
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('id-1'),
+          position: LatLng(1.348310, 103.683136),
+          icon: mapMarker,
+          infoWindow: InfoWindow(
+            title: 'NTU',
+            snippet: 'School',
+          ),
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        // drawer: NavDrawer(auth: auth),
+        appBar: AppBar(
+          title: Text('Car parks'),
+          backgroundColor: Colors.amber.shade300,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchPage()),
+                );
+              },)
+          ],
+        ),
+        body: GoogleMap(
+          initialCameraPosition: CameraPosition(target: _initialcameraposition),
+          mapType: MapType.normal,
+          onMapCreated: _onMapCreated,
+          myLocationEnabled: true,
+
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              _markers.add(
+                Marker(
+                  markerId: MarkerId('id-1'),
+                  position: LatLng(1.348310, 103.683136),
+                  icon: mapMarker,
+                  infoWindow: InfoWindow(
+                    title: 'NTU',
+                    snippet: 'School',
+                  ),
+                ),
+              );
+            });
+          },
+          child: Icon(Icons.pin_drop_outlined),
+        ),
+      ),);
+  }
+}
+
+
