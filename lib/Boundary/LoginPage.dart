@@ -85,27 +85,7 @@ class LoginPage extends StatelessWidget  {
                     padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
                     child: Column(
                       children: <Widget>[
-                        // Padding(
-                        //     padding: const EdgeInsets.only(left: 280),
-                        //     child:Column(
-                        //       children: <Widget>[
-                        //         // Padding(
-                        //         //   padding: const EdgeInsets.only(left: 5),
-                        //         //   child: IconButton(icon: Icon(Icons.person_add,size: 40,color: Colors.brown,),
-                        //         //       onPressed: (){
-                        //         //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
-                        //         //
-                        //         //         // Navigator.of(context).pushNamedAndRemoveUntil(SignUpPage.routeName,(Route<dynamic> route) => true);
-                        //         //       }),
-                        //         // ),
-                        //         // Padding(
-                        //         //   padding: const EdgeInsets.only(left:10),
-                        //         //   child: Text('SignUp ',style: TextStyle(fontWeight: FontWeight.bold),),
-                        //         // ),
-                        //       ],
-                        //     )
-                        //
-                        // ),
+
                         Row(
                           children: <Widget>[
                             Text(
@@ -244,7 +224,7 @@ class LoginPage extends StatelessWidget  {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignUpPage(auth: Auth())));
                               },
                               child: Text(
                                   'SignUp',

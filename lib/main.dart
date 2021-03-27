@@ -65,12 +65,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home:  LandingPage(auth: Auth()),
-      routes: {
-        // SignUpPage.routeName : (ctx) => SignUpPage(auth: Auth()),
-        // LoginPage.routeName : (ctx) => LoginPage(auth: Auth()),
-        MapPage.routeName : (ctx) => MapPage(auth: Auth()),
-
-      },
+      // routes: {
+      //   // SignUpPage.routeName : (ctx) => SignUpPage(auth: Auth()),
+      //   // LoginPage.routeName : (ctx) => LoginPage(auth: Auth()),
+      //   MapPage.routeName : (ctx) => MapPage(auth: Auth()),
+      //
+      // },
     );
   }
 }

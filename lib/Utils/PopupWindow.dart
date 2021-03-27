@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Boundary/LoginPage.dart';
 import 'package:ezparking/Services/Validation.dart';
+import 'package:ezparking/Services/Auth.dart';
 import 'package:ezparking/Boundary/MapPage.dart';
 
 
@@ -31,7 +32,7 @@ class Popupwindow extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             print (status);
-            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+            (status == true && list['mode']== 'Login' )?  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage( auth: Auth() ))) : null;
             print ("list['mode'] is :");
             print (list['mode']);
             // (status == true && list['mode']== 'Login' )?  Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => true) : Navigator.of(context).pushNamedAndRemoveUntil(MapPage.routeName,(Route<dynamic> route) => true)  ;

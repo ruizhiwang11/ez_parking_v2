@@ -22,11 +22,12 @@ abstract class validBase{
   String validateConfirmPassWord(String value);
 }
 
+// final GlobalKey validationstate = new GlobalKey();
+bool validationstate = false;
 
 
 class Validation {
 
-  bool validationstate = false;
   String status;
   User user;
 
@@ -59,7 +60,10 @@ class Validation {
   }
 
   bool validateSignin() {
-    validationstate ?  Auth().currentUser.email == username : false ;
+    print ('Validationstate is '+ validationstate.toString() );
+    print ('Auth().currentUser.email == username is '+ (Auth().currentUser.email == username).toString() );
+
+    return (validationstate ?  (Auth().currentUser.email == username) : false );
   }
 
 
@@ -106,13 +110,15 @@ class Validation {
 
   String validateUserName(String value) {
     if (value.isEmpty) {
-      validationstate = false;
+      validationstate  = false;
       return 'username can not be empty';
     } else if (value.length < 4) {
       validationstate = false;
       return 'username < 4 digits';
     }
-    validationstate = true;
+    else {
+      validationstate = true;
+    }
     return null;
   }
 
@@ -126,7 +132,9 @@ class Validation {
       validationstate = false;
       return 'password < 4 digits';
     }
-    validationstate = true;
+    else {
+      validationstate = true;
+    }
     return null;
   }
 
@@ -144,7 +152,9 @@ class Validation {
       validationstate = false;
       return 'password not the same';
     }
-    validationstate = true;
+    else {
+      validationstate = true;
+    }
     return null;
   }
 

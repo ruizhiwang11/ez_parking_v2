@@ -77,9 +77,9 @@ class SignUpPage extends StatelessWidget  {
                             children: [
                               IconButton(icon: Icon(Icons.login_rounded,size: 38,color: Colors.brown,),
                                   onPressed: (){
-                                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage(auth: Auth())));
 
-                                    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => true);
+                                    // Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(Route<dynamic> route) => true);
                                   }),
                               Text('to Login',style: TextStyle(fontWeight: FontWeight.bold),),
                             ],
