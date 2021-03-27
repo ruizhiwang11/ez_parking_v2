@@ -22,7 +22,6 @@ abstract class validBase{
   String validateConfirmPassWord(String value);
 }
 
-// final GlobalKey validationstate = new GlobalKey();
 bool validationstate = false;
 
 
