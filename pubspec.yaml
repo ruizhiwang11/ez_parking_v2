@@ -32,8 +32,11 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  test: ^1.16.5
+  build_runner: ^1.11.0
   flutter_test:
     sdk: flutter
+   mockito: ^5.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
